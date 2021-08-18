@@ -52,17 +52,21 @@ public class MovieViewAdapter extends RecyclerView.Adapter{
         movieItemHolder.movie_item_title.setText(sp_title);
 
 
-        String item_director = movieDTO.getDirector();
-        Spanned sp_director = Html.fromHtml(item_director,Html.FROM_HTML_MODE_LEGACY);
-        movieItemHolder.movie_item_director.setText(sp_director);
+        String item_director = movieDTO.getDirector().replace("|",",");
+        if(item_director.lastIndexOf(",") == item_director.length() -1){
+             item_director = item_director.substring(0,item_director.length()-1);
+        }
 
-        String item_actor = movieDTO.getActor();
-        Spanned sp_actor = Html.fromHtml(item_actor,Html.FROM_HTML_MODE_LEGACY);
-        movieItemHolder.movie_item_actor.setText(sp_actor);
+        movieItemHolder.movie_item_director.setText("감독 : " + item_director);
+
+        String item_actor = movieDTO.getActor().replace("|",",");
+        if(item_actor.lastIndexOf(",")== item_actor.length()-1){
+            item_actor = item_actor.substring(0, item_actor.length()-1);
+        }
+        movieItemHolder.movie_item_actor.setText("배우 : " + item_actor);
 
         String item_userpoint = movieDTO.getUserRating();
-        Spanned sp_userrating = Html.fromHtml(item_userpoint,Html.FROM_HTML_MODE_LEGACY);
-        movieItemHolder.movie_item_userpoint.setText(item_userpoint);
+        movieItemHolder.movie_item_userpoint.setText("평점 : " +item_userpoint);
 
         if(!movieDTO.getImage().isEmpty()){
             Picasso.get().load(movieDTO.getImage()).into(movieItemHolder.movie_item_image);
